@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produtos Notáveis - Quiz Interativo</title>
+    <style>
+        /* === RESET E BASE === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(145deg, #f0f4ff 0%, #e6edf7 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* === HEADER === */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-top: 6px;
+        }
+
+        /* === CARD PRINCIPAL === */
+        .container {
+            width: 100%;
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 20, 60, 0.12), 0 8px 24px rgba(0, 0, 0, 0.04);
+            padding: 32px 30px;
+            transition: all 0.2s;
+        }
+
+        /* === QUIZ === */
+        #quiz {
+            display: block;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        .question-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 4px 14px;
+            border-radius: 40px;
+        }
+        .score-counter {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2563eb;
+        }
+        #question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin: 12px 0 16px 0;
+            line-height: 1.4;
+        }
+
+        /* === PROGRESS BAR === */
+        .progress {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 40px;
+            overflow: hidden;
+            margin: 18px 0 24px 0;
+        }
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            border-radius: 40px;
+            transition: width 0.4s ease;
+        }
+
+        /* === OPÇÕES === */
+        #options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0 20px 0;
+        }
+        .option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0f172a;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            width: 100%;
+        }
+        .option:hover:not(:disabled) {
+            background: #eff6ff;
+            border-color: #93b5f1;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.08);
+        }
+        .option:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .option.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+        }
+        .option.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+        .option.correct::after {
+            content: " ✓";
+            font-weight: 700;
+        }
+        .option.wrong::after {
+            content: " ✗";
+            font-weight: 700;
+        }
+
+        /* === FEEDBACK === */
+        #feedback {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 12px;
+            margin: 8px 0 16px 0;
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #feedback.correct-feedback {
+            background: #dcfce7;
+            color: #166534;
+        }
+        #feedback.wrong-feedback {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .explanation {
+            font-weight: 400;
+            font-size: 0.95rem;
+            color: #334155;
+            margin-left: 4px;
+        }
+
+        /* === BOTÃO PRÓXIMA === */
+        #next {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+            width: 100%;
+            margin-top: 6px;
+        }
+        #next:hover:not(:disabled) {
+            background: #1d4ed8;
+            transform: scale(1.01);
+        }
+        #next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* === RESULTADO FINAL === */
+        #result {
+            text-align: center;
+            padding: 20px 10px;
+        }
+        #result h2 {
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        #result .emoji-big {
+            font-size: 4rem;
+            display: block;
+            margin: 10px 0;
+        }
+        #result #score {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            background: #f1f5f9;
+            padding: 12px 24px;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 16px 0;
+        }
+        #result .restart-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 12px;
+        }
+        #result .restart-btn:hover {
+            background: #1e293b;
+        }
+
+        /* === UTILITÁRIOS === */
+        .hidden {
+            display: none !important;
+        }
+
+        /* === RESPONSIVO === */
+        @media (max-width: 480px) {
+            .container { padding: 22px 16px; }
+            header h1 { font-size: 1.8rem; }
+            #question { font-size: 1.1rem; }
+            .option { padding: 12px 16px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📐 Produtos Notáveis</h1>
+    <p>Escolha a opção correta e aprenda com os feedbacks</p>
+</header>
+
+<div class="container">
+    <div id="quiz">
+        <div class="question-header">
+            <span class="question-number" id="qnum">Questão 1 de 8</span>
+            <span class="score-counter" id="scoreDisplay">✅ 0 acertos</span>
+        </div>
+        <div id="question"></div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div id="options"></div>
+        <div id="feedback"></div>
+        <button id="next" disabled>Próxima questão →</button>
+    </div>
+
+    <div id="result" class="hidden">
+        <span class="emoji-big" id="resultEmoji">🎉</span>
+        <h2>Concluído!</h2>
+        <div id="score">Você acertou 0 de 8</div>
+        <p id="resultMessage" style="color:#475569; margin: 10px 0 20px;"></p>
+        <button class="restart-btn" onclick="app.restart()">🔄 Recomeçar</button>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    //  DADOS DAS QUESTÕES (com explicação opcional)
+    // ============================================================
+    const QUESTIONS = [
+        {
+            q: '(x + 3)² é igual a:',
+            options: ['x² + 6x + 9', 'x² + 9', 'x² + 3x + 9', 'x² + 6'],
+            correct: 0,
+            explanation: '(x + 3)² = x² + 2·x·3 + 3² = x² + 6x + 9'
+        },
+        {
+            q: '(a - 5)² é igual a:',
+            options: ['a² - 25', 'a² - 10a + 25', 'a² + 10a + 25', 'a² - 5a + 25'],
+            correct: 1,
+            explanation: '(a - 5)² = a² - 2·a·5 + 5² = a² - 10a + 25'
+        },
+        {
+            q: '(x + 4)(x - 4) é igual a:',
+            options: ['x² + 16', 'x² - 8x + 16', 'x² - 16', 'x² + 8x - 16'],
+            correct: 2,
+            explanation: '(x + 4)(x - 4) = x² - 4² = x² - 16'
+        },
+        {
+            q: '(2x + y)² é igual a:',
+            options: ['4x² + 4xy + y²', '4x² + 2xy + y²', '2x² + 4xy + y²', '4x² + y²'],
+            correct: 0,
+            explanation: '(2x + y)² = (2x)² + 2·(2x)·y + y² = 4x² + 4xy + y²'
+        },
+        {
+            q: '(x - 2)³ é igual a:',
+            options: ['x³ - 6x² + 12x - 8', 'x³ - 8', 'x³ - 3x² + 6x - 8', 'x³ + 6x² + 12x + 8'],
+            correct: 0,
+            explanation: '(x - 2)³ = x³ - 3·x²·2 + 3·x·2² - 2³ = x³ - 6x² + 12x - 8'
+        },
+        {
+            q: '(3a + b)² é igual a:',
+            options: ['9a² + 6ab + b²', '9a² + 3ab + b²', '6a² + 6ab + b²', '9a² + b²'],
+            correct: 0,
+            explanation: '(3a + b)² = (3a)² + 2·(3a)·b + b² = 9a² + 6ab + b²'
+        },
+        {
+            q: '(m + n)(m - n) é igual a:',
+            options: ['m² + n²', 'm² - 2mn + n²', 'm² - n²', 'm² + 2mn + n²'],
+            correct: 2,
+            explanation: '(m + n)(m - n) = m² - n²'
+        },
+        {
+            q: '(x + 1)³ é igual a:',
+            options: ['x³ + 1', 'x³ + 3x² + 3x + 1', 'x³ + 2x + 1', 'x³ + 3x + 1'],
+            correct: 1,
+            explanation: '(x + 1)³ = x³ + 3·x²·1 + 3·x·1² + 1³ = x³ + 3x² + 3x + 1'
+        }
+    ];
+
+    // ============================================================
+    //  CLASSE DO APLICATIVO
+    // ============================================================
+    class QuizApp {
+        constructor(questions) {
+            this.questions = questions;
+            this.currentIndex = 0;
+            this.score = 0;
+            this.total = questions.length;
+            this.answered = false;
+
+            // Referências DOM
+            this.quizEl = document.getElementById('quiz');
+            this.resultEl = document.getElementById('result');
+            this.questionEl = document.getElementById('question');
+            this.qnumEl = document.getElementById('qnum');
+            this.scoreDisplayEl = document.getElementById('scoreDisplay');
+            this.barEl = document.getElementById('bar');
+            this.optionsEl = document.getElementById('options');
+            this.feedbackEl = document.getElementById('feedback');
+            this.nextBtn = document.getElementById('next');
+            this.resultScoreEl = document.getElementById('score');
+            this.resultMessageEl = document.getElementById('resultMessage');
+            this.resultEmojiEl = document.getElementById('resultEmoji');
+
+            // Evento do botão "Próxima"
+            this.nextBtn.addEventListener('click', () => this.nextQuestion());
+
+            // Inicia
+            this.renderQuestion();
+        }
+
+        renderQuestion() {
+            const q = this.questions[this.currentIndex];
+            this.questionEl.textContent = q.q;
+            this.qnumEl.textContent = `Questão ${this.currentIndex + 1} de ${this.total}`;
+            this.scoreDisplayEl.textContent = `✅ ${this.score} acertos`;
+            this.barEl.style.width = `${(this.currentIndex / this.total) * 100}%`;
+
+            // Limpa opções e feedback
+            this.optionsEl.innerHTML = '';
+            this.feedbackEl.textContent = '';
+            this.feedbackEl.className = '';
+            this.nextBtn.disabled = true;
+            this.answered = false;
+
+            // Cria botões de opção
+            q.options.forEach((text, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option';
+                btn.textContent = text;
+                btn.dataset.index = idx;
+                btn.addEventListener('click', () => this.selectOption(idx));
+                this.optionsEl.appendChild(btn);
+            });
+        }
+
+        selectOption(selectedIndex) {
+            if (this.answered) return;
+            this.answered = true;
+
+            const q = this.questions[this.currentIndex];
+            const isCorrect = (selectedIndex === q.correct);
+            const buttons = this.optionsEl.querySelectorAll('.option');
+
+            // Desabilita todos os botões
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Marca a opção escolhida e a correta
+            buttons.forEach((btn, idx) => {
+                if (idx === q.correct) btn.classList.add('correct');
+                if (idx === selectedIndex && !isCorrect) btn.classList.add('wrong');
+            });
+
+            // Atualiza pontuação e feedback
+            if (isCorrect) {
+                this.score++;
+                this.scoreDisplayEl.textContent = `✅ ${this.score} acertos`;
+                this.feedbackEl.textContent = '✅ Correta! ' + q.explanation;
+                this.feedbackEl.className = 'correct-feedback';
+            } else {
+                this.feedbackEl.textContent = '❌ Incorreta. ' + q.explanation;
+                this.feedbackEl.className = 'wrong-feedback';
+            }
+
+            // Habilita o botão "Próxima"
+            this.nextBtn.disabled = false;
+        }
+
+        nextQuestion() {
+            this.currentIndex++;
+            if (this.currentIndex < this.total) {
+                this.renderQuestion();
+            } else {
+                this.finishQuiz();
+            }
+        }
+
+        finishQuiz() {
+            // Esconde quiz e mostra resultado
+            this.quizEl.classList.add('hidden');
+            this.resultEl.classList.remove('hidden');
+
+            const total = this.total;
+            const acertos = this.score;
+            this.resultScoreEl.textContent = `Você acertou ${acertos} de ${total}`;
+
+            let emoji, msg;
+            const pct = acertos / total;
+            if (pct === 1) {
+                emoji = '🌟';
+                msg = 'Perfeito! Você dominou todos os produtos notáveis!';
+            } else if (pct >= 0.75) {
+                emoji = '👏';
+                msg = 'Muito bem! Continue praticando para gabaritar.';
+            } else if (pct >= 0.5) {
+                emoji = '📚';
+                msg = 'Bom! Reveja os casos em que errou e tente novamente.';
+            } else {
+                emoji = '💪';
+                msg = 'Não desanime! Releia a teoria e pratique mais um pouco.';
+            }
+            this.resultEmojiEl.textContent = emoji;
+            this.resultMessageEl.textContent = msg;
+
+            // Barra de progresso cheia
+            this.barEl.style.width = '100%';
+        }
+
+        restart() {
+            this.currentIndex = 0;
+            this.score = 0;
+            this.answered = false;
+            this.quizEl.classList.remove('hidden');
+            this.resultEl.classList.add('hidden');
+            this.renderQuestion();
+        }
+    }
+
+    // ============================================================
+    //  INSTANCIA O APP
+    // ============================================================
+    const app = new QuizApp(QUESTIONS);
+</script>
+
+</body>
+</html>
