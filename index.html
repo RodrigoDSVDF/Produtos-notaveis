@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Produtos Notáveis - Quiz Interativo</title>
+    <title>Produtos Notáveis - Laboratório + Quiz</title>
     <style>
-        /* === RESET E BASE === */
+        /* ---------- RESET E BASE ---------- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,172 +13,347 @@
         }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: linear-gradient(145deg, #f0f4ff 0%, #e6edf7 100%);
+            background: #f1f5f9;
+            color: #0b1a33;
+            padding: 20px 16px 40px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
+        }
+        .app-wrapper {
+            max-width: 960px;
+            width: 100%;
         }
 
-        /* === HEADER === */
-        header {
+        /* ---------- CABEÇALHO ---------- */
+        .app-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
-        header h1 {
+        .app-header h1 {
             font-size: 2.4rem;
             font-weight: 700;
-            color: #1e293b;
+            background: linear-gradient(135deg, #1e3a6b, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             letter-spacing: -0.5px;
         }
-        header p {
-            font-size: 1.1rem;
+        .app-header p {
             color: #475569;
-            margin-top: 6px;
+            font-size: 1.05rem;
+            margin-top: 4px;
         }
 
-        /* === CARD PRINCIPAL === */
-        .container {
-            width: 100%;
-            max-width: 720px;
-            background: #ffffff;
-            border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0, 20, 60, 0.12), 0 8px 24px rgba(0, 0, 0, 0.04);
-            padding: 32px 30px;
-            transition: all 0.2s;
+        /* ---------- TABS ---------- */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            background: white;
+            padding: 6px;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+        .tab-btn:hover {
+            background: #eef2ff;
+            color: #1e3a6b;
+        }
+        .tab-btn.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
         }
 
-        /* === QUIZ === */
-        #quiz {
+        /* ---------- CONTEÚDO DAS ABAS ---------- */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
             display: block;
         }
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 8px;
-        }
-        .question-number {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #64748b;
-            background: #f1f5f9;
-            padding: 4px 14px;
-            border-radius: 40px;
-        }
-        .score-counter {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #2563eb;
-        }
-        #question {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin: 12px 0 16px 0;
-            line-height: 1.4;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* === PROGRESS BAR === */
-        .progress {
+        /* ---------- TEORIA ---------- */
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 10px 0;
+        }
+        .theory-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 18px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            border-left: 5px solid #2563eb;
+            transition: 0.2s;
+        }
+        .theory-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+        }
+        .theory-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        .theory-card .formula {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2563eb;
+            background: #eff6ff;
+            padding: 6px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 6px 0 10px;
+        }
+        .theory-card .example {
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin-top: 8px;
+            border: 1px solid #e9edf2;
+        }
+        .theory-card .example strong {
+            color: #0b1a33;
+        }
+
+        /* ---------- LABORATÓRIO ---------- */
+        .lab-container {
+            background: white;
+            border-radius: 28px;
+            padding: 28px 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+        }
+        .lab-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+        .lab-controls .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 80px;
+        }
+        .lab-controls .field label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        .lab-controls .field input,
+        .lab-controls .field select {
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: 0.15s;
+            width: 100%;
+        }
+        .lab-controls .field input:focus,
+        .lab-controls .field select:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+        .lab-controls .field select {
+            cursor: pointer;
+        }
+
+        .lab-result {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 2px solid #e9edf2;
+            min-height: 120px;
+        }
+        .lab-result .step {
+            font-size: 1.05rem;
+            margin: 6px 0;
+            padding: 6px 0;
+            border-bottom: 1px dashed #d1d9e6;
+        }
+        .lab-result .step:last-child {
+            border-bottom: none;
+        }
+        .lab-result .step .highlight {
+            font-weight: 700;
+            color: #2563eb;
+        }
+        .lab-result .step .num {
+            color: #0b1a33;
+            font-weight: 600;
+        }
+        .lab-result .final {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #d1d9e6;
+        }
+
+        /* ---------- QUIZ (mesmo estilo anterior, apenas adaptado) ---------- */
+        .quiz-wrapper {
+            background: white;
+            border-radius: 28px;
+            padding: 24px 22px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+        }
+        /* reutiliza estilos do quiz já definidos, mas garanto que não conflitem */
+        .quiz-wrapper .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 18px;
+        }
+        .quiz-wrapper .top-bar .info {
+            display: flex;
+            gap: 18px;
+            font-weight: 500;
+        }
+        .quiz-wrapper .top-bar .badge-category {
+            background: #dbeafe;
+            color: #1e4a8a;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .quiz-wrapper .progress-track {
+            width: 100%;
             height: 6px;
             background: #e2e8f0;
             border-radius: 40px;
             overflow: hidden;
-            margin: 18px 0 24px 0;
+            margin: 10px 0 18px;
         }
-        .bar {
+        .quiz-wrapper .progress-fill {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #3b82f6, #2563eb);
             border-radius: 40px;
-            transition: width 0.4s ease;
+            transition: width 0.5s ease;
         }
-
-        /* === OPÇÕES === */
-        #options {
+        .quiz-wrapper #question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 8px 0 16px;
+        }
+        .quiz-wrapper #options {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin: 16px 0 20px 0;
+            margin: 12px 0 16px;
         }
-        .option {
+        .quiz-wrapper .option {
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
+            border: 2px solid #e9edf2;
+            border-radius: 14px;
             padding: 14px 20px;
             font-size: 1rem;
             font-weight: 500;
-            color: #0f172a;
             text-align: left;
             cursor: pointer;
-            transition: all 0.15s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            width: 100%;
+            transition: 0.15s;
         }
-        .option:hover:not(:disabled) {
+        .quiz-wrapper .option:hover:not(:disabled) {
             background: #eff6ff;
-            border-color: #93b5f1;
+            border-color: #94b3f0;
             transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.08);
         }
-        .option:disabled {
+        .quiz-wrapper .option:disabled {
             cursor: default;
-            opacity: 0.7;
+            opacity: 0.8;
         }
-        .option.correct {
+        .quiz-wrapper .option.correct {
             background: #dcfce7;
             border-color: #22c55e;
             color: #166534;
         }
-        .option.wrong {
+        .quiz-wrapper .option.correct::after {
+            content: " ✓";
+            font-weight: 700;
+        }
+        .quiz-wrapper .option.wrong {
             background: #fee2e2;
             border-color: #ef4444;
             color: #991b1b;
         }
-        .option.correct::after {
-            content: " ✓";
-            font-weight: 700;
-        }
-        .option.wrong::after {
+        .quiz-wrapper .option.wrong::after {
             content: " ✗";
             font-weight: 700;
         }
-
-        /* === FEEDBACK === */
-        #feedback {
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 10px 16px;
-            border-radius: 12px;
-            margin: 8px 0 16px 0;
+        .quiz-wrapper #feedback {
+            min-height: 50px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin: 8px 0 18px;
             background: #f1f5f9;
             color: #1e293b;
-            min-height: 48px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        #feedback.correct-feedback {
+        .quiz-wrapper #feedback .explanation {
+            font-weight: 400;
+            color: #334155;
+        }
+        .quiz-wrapper #feedback.correct-feedback {
             background: #dcfce7;
             color: #166534;
         }
-        #feedback.wrong-feedback {
+        .quiz-wrapper #feedback.wrong-feedback {
             background: #fee2e2;
             color: #991b1b;
         }
-        .explanation {
-            font-weight: 400;
-            font-size: 0.95rem;
-            color: #334155;
-            margin-left: 4px;
+        .quiz-wrapper .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
-        /* === BOTÃO PRÓXIMA === */
-        #next {
+        .quiz-wrapper .btn {
             background: #2563eb;
             color: white;
             border: none;
@@ -187,304 +362,768 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
-            width: 100%;
-            margin-top: 6px;
+            transition: 0.2s;
+            flex: 1;
+            min-width: 120px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
-        #next:hover:not(:disabled) {
+        .quiz-wrapper .btn:hover:not(:disabled) {
             background: #1d4ed8;
             transform: scale(1.01);
         }
-        #next:disabled {
+        .quiz-wrapper .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             box-shadow: none;
         }
+        .quiz-wrapper .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+            box-shadow: none;
+        }
+        .quiz-wrapper .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e1;
+        }
+        .quiz-wrapper .btn-success {
+            background: #16a34a;
+        }
+        .quiz-wrapper .btn-success:hover:not(:disabled) {
+            background: #15803d;
+        }
 
-        /* === RESULTADO FINAL === */
-        #result {
+        /* resultado do quiz */
+        .quiz-wrapper #result {
             text-align: center;
-            padding: 20px 10px;
+            padding: 10px 0;
         }
-        #result h2 {
-            font-size: 2rem;
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-        #result .emoji-big {
+        .quiz-wrapper #result .emoji-big {
             font-size: 4rem;
             display: block;
-            margin: 10px 0;
         }
-        #result #score {
-            font-size: 1.3rem;
+        .quiz-wrapper #result h2 {
+            font-size: 1.8rem;
+            margin: 6px 0;
+        }
+        .quiz-wrapper .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 20px;
+        }
+        .quiz-wrapper .stats-grid .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .quiz-wrapper .stats-grid .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+        .quiz-wrapper #reviewArea {
+            margin-top: 20px;
+            text-align: left;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 16px;
+        }
+        .quiz-wrapper .review-item {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #2563eb;
+        }
+        .quiz-wrapper .review-item .r-question {
             font-weight: 600;
-            color: #1e293b;
+        }
+        .quiz-wrapper .review-item .r-answer {
+            margin-top: 4px;
+            font-size: 0.95rem;
+        }
+        .quiz-wrapper .review-item .r-correct {
+            color: #16a34a;
+            font-weight: 600;
+        }
+        .quiz-wrapper .review-item .r-wrong {
+            color: #dc2626;
+            font-weight: 600;
+        }
+        .quiz-wrapper .review-item .r-explanation {
             background: #f1f5f9;
-            padding: 12px 24px;
-            border-radius: 60px;
-            display: inline-block;
-            margin: 16px 0;
-        }
-        #result .restart-btn {
-            background: #0f172a;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            padding: 14px 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 12px;
-        }
-        #result .restart-btn:hover {
-            background: #1e293b;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-top: 6px;
+            font-size: 0.9rem;
         }
 
-        /* === UTILITÁRIOS === */
         .hidden {
             display: none !important;
         }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .text-center {
+            text-align: center;
+        }
 
-        /* === RESPONSIVO === */
-        @media (max-width: 480px) {
-            .container { padding: 22px 16px; }
-            header h1 { font-size: 1.8rem; }
-            #question { font-size: 1.1rem; }
-            .option { padding: 12px 16px; font-size: 0.95rem; }
+        /* ---------- RESPONSIVO ---------- */
+        @media (max-width: 600px) {
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+            .tabs .tab-btn {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                min-width: 70px;
+            }
+            .lab-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .theory-grid {
+                grid-template-columns: 1fr;
+            }
+            .quiz-wrapper .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .quiz-wrapper .top-bar .info {
+                justify-content: space-around;
+            }
+            .quiz-wrapper .btn {
+                min-width: 80px;
+                padding: 12px 16px;
+            }
         }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>📐 Produtos Notáveis</h1>
-    <p>Escolha a opção correta e aprenda com os feedbacks</p>
-</header>
-
-<div class="container">
-    <div id="quiz">
-        <div class="question-header">
-            <span class="question-number" id="qnum">Questão 1 de 8</span>
-            <span class="score-counter" id="scoreDisplay">✅ 0 acertos</span>
+    <div class="app-wrapper">
+        <!-- CABEÇALHO -->
+        <div class="app-header">
+            <h1>🧮 Produtos Notáveis</h1>
+            <p>Teoria • Laboratório interativo • Quiz com 30 exercícios</p>
         </div>
-        <div id="question"></div>
-        <div class="progress"><div class="bar" id="bar"></div></div>
-        <div id="options"></div>
-        <div id="feedback"></div>
-        <button id="next" disabled>Próxima questão →</button>
+
+        <!-- TABS -->
+        <div class="tabs" id="tabContainer">
+            <button class="tab-btn active" data-tab="teoria">📖 Teoria</button>
+            <button class="tab-btn" data-tab="laboratorio">🔬 Laboratório</button>
+            <button class="tab-btn" data-tab="quiz">🎯 Quiz</button>
+        </div>
+
+        <!-- ========== TEORIA ========== -->
+        <div class="tab-content active" id="tab-teoria">
+            <div class="theory-grid">
+                <div class="theory-card">
+                    <h3>Quadrado da soma</h3>
+                    <div class="formula">(a + b)² = a² + 2ab + b²</div>
+                    <div class="example"><strong>Exemplo:</strong> (3 + 2)² = 3² + 2·3·2 + 2² = 9 + 12 + 4 = 25</div>
+                </div>
+                <div class="theory-card">
+                    <h3>Quadrado da diferença</h3>
+                    <div class="formula">(a – b)² = a² – 2ab + b²</div>
+                    <div class="example"><strong>Exemplo:</strong> (5 – 1)² = 5² – 2·5·1 + 1² = 25 – 10 + 1 = 16</div>
+                </div>
+                <div class="theory-card">
+                    <h3>Produto da soma pela diferença</h3>
+                    <div class="formula">(a + b)(a – b) = a² – b²</div>
+                    <div class="example"><strong>Exemplo:</strong> (4 + 3)(4 – 3) = 4² – 3² = 16 – 9 = 7</div>
+                </div>
+                <div class="theory-card">
+                    <h3>Cubo da soma</h3>
+                    <div class="formula">(a + b)³ = a³ + 3a²b + 3ab² + b³</div>
+                    <div class="example"><strong>Exemplo:</strong> (1 + 2)³ = 1 + 3·1²·2 + 3·1·2² + 8 = 1 + 6 + 12 + 8 = 27</div>
+                </div>
+                <div class="theory-card">
+                    <h3>Cubo da diferença</h3>
+                    <div class="formula">(a – b)³ = a³ – 3a²b + 3ab² – b³</div>
+                    <div class="example"><strong>Exemplo:</strong> (3 – 1)³ = 27 – 27 + 9 – 1 = 8</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; color: #475569; text-align: center;">
+                🧠 Use o <strong>Laboratório</strong> para explorar com seus próprios valores e veja o passo a passo.
+            </p>
+        </div>
+
+        <!-- ========== LABORATÓRIO ========== -->
+        <div class="tab-content" id="tab-laboratorio">
+            <div class="lab-container">
+                <div class="lab-controls">
+                    <div class="field">
+                        <label for="labA">Valor de <i>a</i></label>
+                        <input type="number" id="labA" value="3" step="any" />
+                    </div>
+                    <div class="field">
+                        <label for="labB">Valor de <i>b</i></label>
+                        <input type="number" id="labB" value="2" step="any" />
+                    </div>
+                    <div class="field">
+                        <label for="labOp">Operação</label>
+                        <select id="labOp">
+                            <option value="soma2">(a + b)²</option>
+                            <option value="diff2">(a – b)²</option>
+                            <option value="prod">(a + b)(a – b)</option>
+                            <option value="soma3">(a + b)³</option>
+                            <option value="diff3">(a – b)³</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="lab-result" id="labResult">
+                    <div class="step">Insira valores e escolha a operação.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== QUIZ ========== -->
+        <div class="tab-content" id="tab-quiz">
+            <div class="quiz-wrapper" id="quizWrapper">
+                <!-- O conteúdo do quiz será injetado aqui via JS -->
+                <div id="quizContainer"></div>
+            </div>
+        </div>
     </div>
 
-    <div id="result" class="hidden">
-        <span class="emoji-big" id="resultEmoji">🎉</span>
-        <h2>Concluído!</h2>
-        <div id="score">Você acertou 0 de 8</div>
-        <p id="resultMessage" style="color:#475569; margin: 10px 0 20px;"></p>
-        <button class="restart-btn" onclick="app.restart()">🔄 Recomeçar</button>
-    </div>
-</div>
+    <script>
+        // ================================================================
+        //  LABORATÓRIO (interativo)
+        // ================================================================
+        (function setupLab() {
+            const aInput = document.getElementById('labA');
+            const bInput = document.getElementById('labB');
+            const opSelect = document.getElementById('labOp');
+            const resultDiv = document.getElementById('labResult');
 
-<script>
-    // ============================================================
-    //  DADOS DAS QUESTÕES (com explicação opcional)
-    // ============================================================
-    const QUESTIONS = [
-        {
-            q: '(x + 3)² é igual a:',
-            options: ['x² + 6x + 9', 'x² + 9', 'x² + 3x + 9', 'x² + 6'],
-            correct: 0,
-            explanation: '(x + 3)² = x² + 2·x·3 + 3² = x² + 6x + 9'
-        },
-        {
-            q: '(a - 5)² é igual a:',
-            options: ['a² - 25', 'a² - 10a + 25', 'a² + 10a + 25', 'a² - 5a + 25'],
-            correct: 1,
-            explanation: '(a - 5)² = a² - 2·a·5 + 5² = a² - 10a + 25'
-        },
-        {
-            q: '(x + 4)(x - 4) é igual a:',
-            options: ['x² + 16', 'x² - 8x + 16', 'x² - 16', 'x² + 8x - 16'],
-            correct: 2,
-            explanation: '(x + 4)(x - 4) = x² - 4² = x² - 16'
-        },
-        {
-            q: '(2x + y)² é igual a:',
-            options: ['4x² + 4xy + y²', '4x² + 2xy + y²', '2x² + 4xy + y²', '4x² + y²'],
-            correct: 0,
-            explanation: '(2x + y)² = (2x)² + 2·(2x)·y + y² = 4x² + 4xy + y²'
-        },
-        {
-            q: '(x - 2)³ é igual a:',
-            options: ['x³ - 6x² + 12x - 8', 'x³ - 8', 'x³ - 3x² + 6x - 8', 'x³ + 6x² + 12x + 8'],
-            correct: 0,
-            explanation: '(x - 2)³ = x³ - 3·x²·2 + 3·x·2² - 2³ = x³ - 6x² + 12x - 8'
-        },
-        {
-            q: '(3a + b)² é igual a:',
-            options: ['9a² + 6ab + b²', '9a² + 3ab + b²', '6a² + 6ab + b²', '9a² + b²'],
-            correct: 0,
-            explanation: '(3a + b)² = (3a)² + 2·(3a)·b + b² = 9a² + 6ab + b²'
-        },
-        {
-            q: '(m + n)(m - n) é igual a:',
-            options: ['m² + n²', 'm² - 2mn + n²', 'm² - n²', 'm² + 2mn + n²'],
-            correct: 2,
-            explanation: '(m + n)(m - n) = m² - n²'
-        },
-        {
-            q: '(x + 1)³ é igual a:',
-            options: ['x³ + 1', 'x³ + 3x² + 3x + 1', 'x³ + 2x + 1', 'x³ + 3x + 1'],
-            correct: 1,
-            explanation: '(x + 1)³ = x³ + 3·x²·1 + 3·x·1² + 1³ = x³ + 3x² + 3x + 1'
-        }
-    ];
+            function renderLab() {
+                const a = parseFloat(aInput.value) || 0;
+                const b = parseFloat(bInput.value) || 0;
+                const op = opSelect.value;
 
-    // ============================================================
-    //  CLASSE DO APLICATIVO
-    // ============================================================
-    class QuizApp {
-        constructor(questions) {
-            this.questions = questions;
-            this.currentIndex = 0;
-            this.score = 0;
-            this.total = questions.length;
-            this.answered = false;
+                let steps = [];
+                let final = '';
 
-            // Referências DOM
-            this.quizEl = document.getElementById('quiz');
-            this.resultEl = document.getElementById('result');
-            this.questionEl = document.getElementById('question');
-            this.qnumEl = document.getElementById('qnum');
-            this.scoreDisplayEl = document.getElementById('scoreDisplay');
-            this.barEl = document.getElementById('bar');
-            this.optionsEl = document.getElementById('options');
-            this.feedbackEl = document.getElementById('feedback');
-            this.nextBtn = document.getElementById('next');
-            this.resultScoreEl = document.getElementById('score');
-            this.resultMessageEl = document.getElementById('resultMessage');
-            this.resultEmojiEl = document.getElementById('resultEmoji');
+                const format = (x) => (Number.isInteger(x) ? x.toString() : x.toFixed(2));
 
-            // Evento do botão "Próxima"
-            this.nextBtn.addEventListener('click', () => this.nextQuestion());
+                switch (op) {
+                    case 'soma2': {
+                        const a2 = a * a,
+                            ab2 = 2 * a * b,
+                            b2 = b * b;
+                        steps.push(`(${format(a)} + ${format(b)})² = ${format(a)}² + 2·${format(a)}·${format(b)} + ${format(b)}²`);
+                        steps.push(`= ${format(a2)} + ${format(ab2)} + ${format(b2)}`);
+                        final = `= ${format(a2 + ab2 + b2)}`;
+                        break;
+                    }
+                    case 'diff2': {
+                        const a2 = a * a,
+                            ab2 = 2 * a * b,
+                            b2 = b * b;
+                        steps.push(`(${format(a)} – ${format(b)})² = ${format(a)}² – 2·${format(a)}·${format(b)} + ${format(b)}²`);
+                        steps.push(`= ${format(a2)} – ${format(ab2)} + ${format(b2)}`);
+                        final = `= ${format(a2 - ab2 + b2)}`;
+                        break;
+                    }
+                    case 'prod': {
+                        const a2 = a * a,
+                            b2 = b * b;
+                        steps.push(`(${format(a)} + ${format(b)})·(${format(a)} – ${format(b)}) = ${format(a)}² – ${format(b)}²`);
+                        steps.push(`= ${format(a2)} – ${format(b2)}`);
+                        final = `= ${format(a2 - b2)}`;
+                        break;
+                    }
+                    case 'soma3': {
+                        const a3 = a * a * a,
+                            a2b = 3 * a * a * b,
+                            ab2 = 3 * a * b * b,
+                            b3 = b * b * b;
+                        steps.push(
+                            `(${format(a)} + ${format(b)})³ = ${format(a)}³ + 3·${format(a)}²·${format(b)} + 3·${format(a)}·${format(b)}² + ${format(b)}³`
+                            );
+                        steps.push(`= ${format(a3)} + ${format(a2b)} + ${format(ab2)} + ${format(b3)}`);
+                        final = `= ${format(a3 + a2b + ab2 + b3)}`;
+                        break;
+                    }
+                    case 'diff3': {
+                        const a3 = a * a * a,
+                            a2b = 3 * a * a * b,
+                            ab2 = 3 * a * b * b,
+                            b3 = b * b * b;
+                        steps.push(
+                            `(${format(a)} – ${format(b)})³ = ${format(a)}³ – 3·${format(a)}²·${format(b)} + 3·${format(a)}·${format(b)}² – ${format(b)}³`
+                            );
+                        steps.push(`= ${format(a3)} – ${format(a2b)} + ${format(ab2)} – ${format(b3)}`);
+                        final = `= ${format(a3 - a2b + ab2 - b3)}`;
+                        break;
+                    }
+                }
 
-            // Inicia
-            this.renderQuestion();
-        }
+                resultDiv.innerHTML = steps.map(s => `<div class="step">${s}</div>`).join('') +
+                    `<div class="final">${final}</div>`;
+            }
 
-        renderQuestion() {
-            const q = this.questions[this.currentIndex];
-            this.questionEl.textContent = q.q;
-            this.qnumEl.textContent = `Questão ${this.currentIndex + 1} de ${this.total}`;
-            this.scoreDisplayEl.textContent = `✅ ${this.score} acertos`;
-            this.barEl.style.width = `${(this.currentIndex / this.total) * 100}%`;
+            aInput.addEventListener('input', renderLab);
+            bInput.addEventListener('input', renderLab);
+            opSelect.addEventListener('change', renderLab);
+            renderLab();
+        })();
 
-            // Limpa opções e feedback
-            this.optionsEl.innerHTML = '';
-            this.feedbackEl.textContent = '';
-            this.feedbackEl.className = '';
-            this.nextBtn.disabled = true;
-            this.answered = false;
+        // ================================================================
+        //  QUIZ (30 questões com embaralhamento e revisão)
+        // ================================================================
+        (function setupQuiz() {
+            const QUESTION_BANK = [
+                // ---- Quadrado da soma (S) ----
+                { q: '(x + 3)²', options: ['x² + 6x + 9', 'x² + 9', 'x² + 3x + 9', 'x² + 6'], correct: 0, category: 'S',
+                    explanation: '(x + 3)² = x² + 2·x·3 + 3² = x² + 6x + 9' },
+                { q: '(2a + 5)²', options: ['4a² + 20a + 25', '4a² + 10a + 25', '2a² + 10a + 25', '4a² + 25'],
+                    correct: 0, category: 'S',
+                    explanation: '(2a + 5)² = (2a)² + 2·(2a)·5 + 5² = 4a² + 20a + 25' },
+                { q: '(3x + y)²', options: ['9x² + 6xy + y²', '9x² + 3xy + y²', '6x² + 6xy + y²', '9x² + y²'],
+                    correct: 0, category: 'S', explanation: '(3x + y)² = 9x² + 6xy + y²' },
+                { q: '(5 + 2m)²', options: ['4m² + 20m + 25', '4m² + 10m + 25', '25 + 10m + 4m²', '25 + 20m + 4m²'],
+                    correct: 0, category: 'S', explanation: '(5 + 2m)² = 25 + 20m + 4m²' },
+                { q: '(x + 7)²', options: ['x² + 14x + 49', 'x² + 49', 'x² + 7x + 49', 'x² + 14'], correct: 0,
+                    category: 'S', explanation: '(x + 7)² = x² + 14x + 49' },
+                { q: '(4 + y)²', options: ['16 + 8y + y²', '16 + 4y + y²', 'y² + 8y + 16', 'y² + 16'], correct: 0,
+                    category: 'S', explanation: '(4 + y)² = 16 + 8y + y²' },
 
-            // Cria botões de opção
-            q.options.forEach((text, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option';
-                btn.textContent = text;
-                btn.dataset.index = idx;
-                btn.addEventListener('click', () => this.selectOption(idx));
-                this.optionsEl.appendChild(btn);
+                // ---- Quadrado da diferença (D) ----
+                { q: '(x - 5)²', options: ['x² - 10x + 25', 'x² - 25', 'x² + 10x + 25', 'x² - 5x + 25'], correct: 0,
+                    category: 'D', explanation: '(x - 5)² = x² - 10x + 25' },
+                { q: '(3a - 2)²', options: ['9a² - 12a + 4', '9a² - 6a + 4', '9a² - 12a - 4', '9a² + 12a + 4'],
+                    correct: 0, category: 'D', explanation: '(3a - 2)² = 9a² - 12a + 4' },
+                { q: '(4x - y)²', options: ['16x² - 8xy + y²', '16x² - 4xy + y²', '4x² - 8xy + y²', '16x² + 8xy + y²'],
+                    correct: 0, category: 'D', explanation: '(4x - y)² = 16x² - 8xy + y²' },
+                { q: '(7 - 2b)²', options: ['49 - 28b + 4b²', '49 - 14b + 4b²', '49 + 28b + 4b²', '49 - 4b²'],
+                    correct: 0, category: 'D', explanation: '(7 - 2b)² = 49 - 28b + 4b²' },
+                { q: '(x - 6)²', options: ['x² - 12x + 36', 'x² - 36', 'x² + 12x + 36', 'x² - 6x + 36'], correct: 0,
+                    category: 'D', explanation: '(x - 6)² = x² - 12x + 36' },
+                { q: '(5 - 3t)²', options: ['9t² - 30t + 25', '9t² + 30t + 25', '25 - 15t + 9t²', '25 - 30t + 9t²'],
+                    correct: 0, category: 'D', explanation: '(5 - 3t)² = 25 - 30t + 9t²' },
+
+                // ---- Produto da soma pela diferença (P) ----
+                { q: '(x + 4)(x - 4)', options: ['x² - 16', 'x² + 16', 'x² - 8x + 16', 'x² + 8x - 16'], correct: 0,
+                    category: 'P', explanation: '(x + 4)(x - 4) = x² - 4² = x² - 16' },
+                { q: '(2a + 3)(2a - 3)', options: ['4a² - 9', '4a² + 9', '4a² - 6a + 9', '4a² + 6a - 9'], correct: 0,
+                    category: 'P', explanation: '(2a + 3)(2a - 3) = (2a)² - 3² = 4a² - 9' },
+                { q: '(5x + y)(5x - y)', options: ['25x² - y²', '25x² + y²', '25x² - 10xy + y²', '25x² + 10xy - y²'],
+                    correct: 0, category: 'P', explanation: '(5x + y)(5x - y) = 25x² - y²' },
+                { q: '(7 + m)(7 - m)', options: ['49 - m²', '49 + m²', 'm² - 49', '49 - 14m + m²'], correct: 0,
+                    category: 'P', explanation: '(7 + m)(7 - m) = 49 - m²' },
+                { q: '(3x - 4)(3x + 4)', options: ['9x² - 16', '9x² + 16', '9x² - 24x + 16', '9x² + 24x - 16'],
+                    correct: 0, category: 'P', explanation: '(3x - 4)(3x + 4) = 9x² - 16' },
+                { q: '(6 + 2y)(6 - 2y)', options: ['36 - 4y²', '36 + 4y²', '36 - 12y + 4y²', '36 + 12y - 4y²'],
+                    correct: 0, category: 'P', explanation: '(6 + 2y)(6 - 2y) = 36 - 4y²' },
+
+                // ---- Cubo da soma (C+) ----
+                { q: '(x + 1)³', options: ['x³ + 3x² + 3x + 1', 'x³ + 1', 'x³ + 2x + 1', 'x³ + 3x + 1'], correct: 0,
+                    category: 'C+', explanation: '(x + 1)³ = x³ + 3x² + 3x + 1' },
+                { q: '(2a + b)³', options: ['8a³ + 12a²b + 6ab² + b³', '8a³ + 6a²b + 6ab² + b³', '8a³ + 12a²b + 6ab² - b³',
+                        '8a³ + b³'
+                    ], correct: 0, category: 'C+', explanation: '(2a + b)³ = 8a³ + 12a²b + 6ab² + b³' },
+                { q: '(x + 3)³', options: ['x³ + 9x² + 27x + 27', 'x³ + 27', 'x³ + 3x² + 9x + 27', 'x³ + 9x² + 9x + 27'],
+                    correct: 0, category: 'C+', explanation: '(x + 3)³ = x³ + 9x² + 27x + 27' },
+                { q: '(1 + y)³', options: ['1 + 3y + 3y² + y³', '1 + y³', '1 + 3y + y² + y³', '1 + 2y + y² + y³'],
+                    correct: 0, category: 'C+', explanation: '(1 + y)³ = 1 + 3y + 3y² + y³' },
+                { q: '(3 + 2t)³', options: ['27 + 54t + 36t² + 8t³', '27 + 36t + 54t² + 8t³', '27 + 54t + 12t² + 8t³',
+                        '27 + 8t³'
+                    ], correct: 0, category: 'C+', explanation: '(3 + 2t)³ = 27 + 54t + 36t² + 8t³' },
+
+                // ---- Cubo da diferença (C-) ----
+                { q: '(x - 2)³', options: ['x³ - 6x² + 12x - 8', 'x³ - 8', 'x³ - 3x² + 6x - 8', 'x³ + 6x² + 12x + 8'],
+                    correct: 0, category: 'C-', explanation: '(x - 2)³ = x³ - 6x² + 12x - 8' },
+                { q: '(3a - 1)³', options: ['27a³ - 27a² + 9a - 1', '27a³ - 9a² + 3a - 1', '27a³ - 27a² + 9a + 1',
+                        '27a³ - 1'
+                    ], correct: 0, category: 'C-', explanation: '(3a - 1)³ = 27a³ - 27a² + 9a - 1' },
+                { q: '(x - 4)³', options: ['x³ - 12x² + 48x - 64', 'x³ - 64', 'x³ - 3x² + 12x - 64',
+                        'x³ + 12x² + 48x + 64'
+                    ], correct: 0, category: 'C-', explanation: '(x - 4)³ = x³ - 12x² + 48x - 64' },
+                { q: '(2 - y)³', options: ['8 - 12y + 6y² - y³', '8 - 6y + 3y² - y³', '8 + 12y + 6y² + y³', '8 - y³'],
+                    correct: 0, category: 'C-', explanation: '(2 - y)³ = 8 - 12y + 6y² - y³' },
+                { q: '(5 - 2z)³', options: ['125 - 150z + 60z² - 8z³', '125 - 60z + 30z² - 8z³',
+                        '125 - 150z + 30z² - 8z³', '125 - 8z³'
+                    ], correct: 0, category: 'C-', explanation: '(5 - 2z)³ = 125 - 150z + 60z² - 8z³' },
+
+                // ---- Mistos ----
+                { q: '(x + 2)(x² - 2x + 4)', options: ['x³ + 8', 'x³ - 8', 'x³ + 2x² + 4x + 8', 'x³ - 2x² + 4x - 8'],
+                    correct: 0, category: 'M', explanation: 'Soma de cubos: (x + 2)(x² - 2x + 4) = x³ + 8' },
+                { q: '(a - 3)(a² + 3a + 9)', options: ['a³ - 27', 'a³ + 27', 'a³ - 9a² + 27a - 27',
+                        'a³ + 9a² + 27a + 27'
+                    ], correct: 0, category: 'M', explanation: 'Diferença de cubos: (a - 3)(a² + 3a + 9) = a³ - 27' },
+            ];
+
+            // ===== Classe Quiz =====
+            class QuizApp {
+                constructor(questions) {
+                    this.rawQuestions = questions;
+                    this.total = this.rawQuestions.length;
+                    this.shuffledQuestions = [];
+                    this.currentIndex = 0;
+                    this.score = 0;
+                    this.answered = false;
+                    this.history = [];
+                    this.startTime = Date.now();
+                    this.timerInterval = null;
+                    this.elapsedSeconds = 0;
+
+                    this.container = document.getElementById('quizContainer');
+                    this.renderInitial();
+                }
+
+                renderInitial() {
+                    this.container.innerHTML = `
+                        <div id="quizArea">
+                            <div class="top-bar">
+                                <div class="info">
+                                    <span id="qCounter">1 / ${this.total}</span>
+                                    <span id="scoreDisplay">✅ 0</span>
+                                    <span id="categoryBadge" class="badge-category">Geral</span>
+                                </div>
+                                <div class="timer" id="timerDisplay">⏱️ 00:00</div>
+                            </div>
+                            <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+                            <div id="question"></div>
+                            <div id="options"></div>
+                            <div id="feedback"></div>
+                            <div class="actions">
+                                <button class="btn" id="nextBtn" disabled>Próxima →</button>
+                                <button class="btn btn-secondary" id="skipBtn">⏭ Pular</button>
+                            </div>
+                        </div>
+                        <div id="resultArea" class="hidden">
+                            <div class="text-center">
+                                <span class="emoji-big" id="resultEmoji">🎉</span>
+                                <h2 id="resultTitle">Treino concluído!</h2>
+                                <p id="resultSub"></p>
+                            </div>
+                            <div class="stats-grid" id="statsGrid">
+                                <div class="stat-item"><div class="stat-value" id="statAcertos">0</div><div class="stat-label">Acertos</div></div>
+                                <div class="stat-item"><div class="stat-value" id="statErros">0</div><div class="stat-label">Erros</div></div>
+                                <div class="stat-item"><div class="stat-value" id="statPct">0%</div><div class="stat-label">Aproveitamento</div></div>
+                                <div class="stat-item"><div class="stat-value" id="statTempo">00:00</div><div class="stat-label">Tempo total</div></div>
+                            </div>
+                            <button class="btn btn-success" id="showReviewBtn">📖 Ver revisão completa</button>
+                            <button class="btn" id="restartQuizBtn" style="margin-top:12px;">🔄 Recomeçar</button>
+                            <div id="reviewArea" class="hidden"></div>
+                        </div>
+                    `;
+
+                    // Referências
+                    this.quizArea = document.getElementById('quizArea');
+                    this.resultArea = document.getElementById('resultArea');
+                    this.questionEl = document.getElementById('question');
+                    this.optionsEl = document.getElementById('options');
+                    this.feedbackEl = document.getElementById('feedback');
+                    this.nextBtn = document.getElementById('nextBtn');
+                    this.skipBtn = document.getElementById('skipBtn');
+                    this.qCounter = document.getElementById('qCounter');
+                    this.scoreDisplay = document.getElementById('scoreDisplay');
+                    this.categoryBadge = document.getElementById('categoryBadge');
+                    this.bar = document.getElementById('bar');
+                    this.timerDisplay = document.getElementById('timerDisplay');
+
+                    // Resultado
+                    this.resultEmoji = document.getElementById('resultEmoji');
+                    this.resultSub = document.getElementById('resultSub');
+                    this.statAcertos = document.getElementById('statAcertos');
+                    this.statErros = document.getElementById('statErros');
+                    this.statPct = document.getElementById('statPct');
+                    this.statTempo = document.getElementById('statTempo');
+                    this.showReviewBtn = document.getElementById('showReviewBtn');
+                    this.reviewArea = document.getElementById('reviewArea');
+                    this.restartBtn = document.getElementById('restartQuizBtn');
+
+                    // Eventos
+                    this.nextBtn.addEventListener('click', () => this.nextQuestion());
+                    this.skipBtn.addEventListener('click', () => this.skipQuestion());
+                    this.showReviewBtn.addEventListener('click', () => this.toggleReview());
+                    this.restartBtn.addEventListener('click', () => this.restart());
+
+                    // Inicializa
+                    this.shuffleAll();
+                    this.startTimer();
+                    this.renderQuestion();
+                }
+
+                shuffleArray(arr) {
+                    for (let i = arr.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [arr[i], arr[j]] = [arr[j], arr[i]];
+                    }
+                    return arr;
+                }
+
+                shuffleAll() {
+                    this.shuffledQuestions = this.shuffleArray([...this.rawQuestions]);
+                    this.shuffledQuestions.forEach(q => {
+                        const opts = q.options.map((text, idx) => ({ text, idx }));
+                        const shuffledOpts = this.shuffleArray(opts);
+                        q.options = shuffledOpts.map(o => o.text);
+                        q.correct = shuffledOpts.findIndex(o => o.idx === q.correct);
+                    });
+                }
+
+                startTimer() {
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                    this.startTime = Date.now();
+                    this.timerInterval = setInterval(() => {
+                        this.elapsedSeconds = Math.floor((Date.now() - this.startTime) / 1000);
+                        this.timerDisplay.textContent = `⏱️ ${this.formatTime(this.elapsedSeconds)}`;
+                    }, 500);
+                }
+
+                formatTime(sec) {
+                    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+                    const s = String(sec % 60).padStart(2, '0');
+                    return `${m}:${s}`;
+                }
+
+                renderQuestion() {
+                    const q = this.shuffledQuestions[this.currentIndex];
+                    this.questionEl.textContent = `${this.currentIndex+1}. ${q.q}`;
+                    this.qCounter.textContent = `${this.currentIndex+1} / ${this.total}`;
+                    this.scoreDisplay.textContent = `✅ ${this.score}`;
+                    this.categoryBadge.textContent = this.getCategoryLabel(q.category);
+                    this.bar.style.width = `${(this.currentIndex / this.total) * 100}%`;
+
+                    this.optionsEl.innerHTML = '';
+                    this.feedbackEl.textContent = '';
+                    this.feedbackEl.className = '';
+                    this.nextBtn.disabled = true;
+                    this.answered = false;
+
+                    q.options.forEach((text, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'option';
+                        btn.textContent = text;
+                        btn.dataset.idx = idx;
+                        btn.addEventListener('click', () => this.selectOption(idx));
+                        this.optionsEl.appendChild(btn);
+                    });
+                }
+
+                getCategoryLabel(cat) {
+                    const map = { 'S': 'Soma²', 'D': 'Diferença²', 'P': 'Soma·Dif', 'C+': 'Cubo+', 'C-': 'Cubo-',
+                        'M': 'Misto' };
+                    return map[cat] || 'Geral';
+                }
+
+                selectOption(selectedIdx) {
+                    if (this.answered) return;
+                    this.answered = true;
+
+                    const q = this.shuffledQuestions[this.currentIndex];
+                    const correctIdx = q.correct;
+                    const isCorrect = (selectedIdx === correctIdx);
+                    const buttons = this.optionsEl.querySelectorAll('.option');
+
+                    buttons.forEach(btn => btn.disabled = true);
+                    buttons.forEach((btn, idx) => {
+                        if (idx === correctIdx) btn.classList.add('correct');
+                        if (idx === selectedIdx && !isCorrect) btn.classList.add('wrong');
+                    });
+
+                    if (isCorrect) {
+                        this.score++;
+                        this.scoreDisplay.textContent = `✅ ${this.score}`;
+                        this.feedbackEl.textContent = '✅ Correta! ';
+                        this.feedbackEl.className = 'correct-feedback';
+                    } else {
+                        this.feedbackEl.textContent = '❌ Incorreta. ';
+                        this.feedbackEl.className = 'wrong-feedback';
+                    }
+                    const expl = document.createElement('span');
+                    expl.className = 'explanation';
+                    expl.textContent = q.explanation;
+                    this.feedbackEl.appendChild(expl);
+
+                    this.history.push({
+                        userAnswer: selectedIdx,
+                        correct: correctIdx,
+                        isCorrect,
+                        timeSpent: this.elapsedSeconds
+                    });
+
+                    this.nextBtn.disabled = false;
+                }
+
+                nextQuestion() {
+                    this.currentIndex++;
+                    if (this.currentIndex < this.total) {
+                        this.renderQuestion();
+                    } else {
+                        this.finishQuiz();
+                    }
+                }
+
+                skipQuestion() {
+                    if (this.answered) return;
+                    const q = this.shuffledQuestions[this.currentIndex];
+                    const buttons = this.optionsEl.querySelectorAll('.option');
+                    buttons.forEach((btn, idx) => {
+                        btn.disabled = true;
+                        if (idx === q.correct) btn.classList.add('correct');
+                    });
+                    this.feedbackEl.textContent = '⏭ Pular: a resposta correta está marcada.';
+                    this.feedbackEl.className = 'wrong-feedback';
+                    const expl = document.createElement('span');
+                    expl.className = 'explanation';
+                    expl.textContent = q.explanation;
+                    this.feedbackEl.appendChild(expl);
+                    this.answered = true;
+                    this.history.push({
+                        userAnswer: -1,
+                        correct: q.correct,
+                        isCorrect: false,
+                        timeSpent: this.elapsedSeconds
+                    });
+                    this.nextBtn.disabled = false;
+                }
+
+                finishQuiz() {
+                    clearInterval(this.timerInterval);
+                    this.quizArea.classList.add('hidden');
+                    this.resultArea.classList.remove('hidden');
+
+                    const total = this.total;
+                    const acertos = this.score;
+                    const erros = total - acertos;
+                    const pct = Math.round((acertos / total) * 100);
+
+                    let emoji, msg;
+                    if (pct === 100) { emoji = '🌟';
+                        msg = 'Perfeito! Você é um(a) mestre!'; } else if (pct >= 80) { emoji = '👏';
+                        msg = 'Excelente! Continue assim.'; } else if (pct >= 60) { emoji = '📚';
+                        msg = 'Bom! Reveja os erros.'; } else if (pct >= 40) { emoji = '💪';
+                        msg = 'Pode melhorar! Estude mais.'; } else { emoji = '🔁';
+                        msg = 'Não desanime! Refaça o treino.'; }
+
+                    this.resultEmoji.textContent = emoji;
+                    this.resultSub.textContent = msg;
+                    this.statAcertos.textContent = acertos;
+                    this.statErros.textContent = erros;
+                    this.statPct.textContent = `${pct}%`;
+                    this.statTempo.textContent = this.formatTime(this.elapsedSeconds);
+
+                    this.reviewArea.classList.add('hidden');
+                    this.showReviewBtn.textContent = '📖 Ver revisão completa';
+                    this.reviewData = this.shuffledQuestions.map((q, idx) => ({
+                        ...q,
+                        userAnswer: this.history[idx] ? this.history[idx].userAnswer : -1,
+                        isCorrect: this.history[idx] ? this.history[idx].isCorrect : false,
+                    }));
+                }
+
+                toggleReview() {
+                    if (this.reviewArea.classList.contains('hidden')) {
+                        this.buildReview();
+                        this.reviewArea.classList.remove('hidden');
+                        this.showReviewBtn.textContent = '🙈 Ocultar revisão';
+                    } else {
+                        this.reviewArea.classList.add('hidden');
+                        this.showReviewBtn.textContent = '📖 Ver revisão completa';
+                    }
+                }
+
+                buildReview() {
+                    this.reviewArea.innerHTML = '';
+                    this.reviewData.forEach((q, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'review-item';
+                        const userAns = q.userAnswer;
+                        const isCorrect = q.isCorrect;
+                        const correctText = q.options[q.correct];
+
+                        let answerHtml = `<div class="r-answer">`;
+                        if (userAns === -1) {
+                            answerHtml +=
+                                `<span class="r-wrong">Pulada</span> → Correta: <span class="r-correct">${correctText}</span>`;
+                        } else if (isCorrect) {
+                            answerHtml += `<span class="r-correct">✓ ${q.options[userAns]}</span> (correta)`;
+                        } else {
+                            answerHtml +=
+                                `<span class="r-wrong">✗ ${q.options[userAns]}</span> → Correta: <span class="r-correct">${correctText}</span>`;
+                        }
+                        answerHtml += `</div>`;
+
+                        div.innerHTML = `
+                            <div class="r-question">${idx+1}. ${q.q}</div>
+                            ${answerHtml}
+                            <div class="r-explanation">📘 ${q.explanation}</div>
+                        `;
+                        this.reviewArea.appendChild(div);
+                    });
+                }
+
+                restart() {
+                    clearInterval(this.timerInterval);
+                    this.currentIndex = 0;
+                    this.score = 0;
+                    this.history = [];
+                    this.elapsedSeconds = 0;
+                    this.answered = false;
+
+                    this.shuffleAll();
+                    this.quizArea.classList.remove('hidden');
+                    this.resultArea.classList.add('hidden');
+                    this.reviewArea.classList.add('hidden');
+                    this.showReviewBtn.textContent = '📖 Ver revisão completa';
+
+                    this.startTimer();
+                    this.renderQuestion();
+                }
+            }
+
+            // Instancia o Quiz quando a aba for ativada pela primeira vez
+            let quizInstance = null;
+
+            function initQuiz() {
+                if (!quizInstance) {
+                    quizInstance = new QuizApp(QUESTION_BANK);
+                }
+            }
+
+            // Observa a aba de quiz para iniciar quando for clicada
+            const quizTab = document.querySelector('[data-tab="quiz"]');
+            const observer = new MutationObserver(() => {
+                if (quizTab.classList.contains('active')) {
+                    initQuiz();
+                }
             });
-        }
+            observer.observe(quizTab, { attributes: true, attributeFilter: ['class'] });
 
-        selectOption(selectedIndex) {
-            if (this.answered) return;
-            this.answered = true;
+            // Se a aba já estiver ativa ao carregar (não é o caso), inicia
+            // mas como a padrão é 'teoria', não precisa.
+            // Para segurança, se o usuário clicar em quiz, o observer chama.
+        })();
 
-            const q = this.questions[this.currentIndex];
-            const isCorrect = (selectedIndex === q.correct);
-            const buttons = this.optionsEl.querySelectorAll('.option');
 
-            // Desabilita todos os botões
-            buttons.forEach(btn => btn.disabled = true);
+        // ================================================================
+        //  NAVEGAÇÃO POR TABS
+        // ================================================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active de todos
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-            // Marca a opção escolhida e a correta
-            buttons.forEach((btn, idx) => {
-                if (idx === q.correct) btn.classList.add('correct');
-                if (idx === selectedIndex && !isCorrect) btn.classList.add('wrong');
+                // Ativa este
+                this.classList.add('active');
+                const tabId = this.dataset.tab;
+                document.getElementById('tab-' + tabId).classList.add('active');
+
+                // Se for a aba quiz, garante que o quiz seja iniciado (já tratado pelo observer)
+                if (tabId === 'quiz') {
+                    // O observer já fará, mas forçamos caso não tenha sido capturado
+                    if (typeof initQuiz !== 'undefined') {
+                        try { initQuiz(); } catch (e) {}
+                    }
+                }
             });
-
-            // Atualiza pontuação e feedback
-            if (isCorrect) {
-                this.score++;
-                this.scoreDisplayEl.textContent = `✅ ${this.score} acertos`;
-                this.feedbackEl.textContent = '✅ Correta! ' + q.explanation;
-                this.feedbackEl.className = 'correct-feedback';
-            } else {
-                this.feedbackEl.textContent = '❌ Incorreta. ' + q.explanation;
-                this.feedbackEl.className = 'wrong-feedback';
-            }
-
-            // Habilita o botão "Próxima"
-            this.nextBtn.disabled = false;
-        }
-
-        nextQuestion() {
-            this.currentIndex++;
-            if (this.currentIndex < this.total) {
-                this.renderQuestion();
-            } else {
-                this.finishQuiz();
-            }
-        }
-
-        finishQuiz() {
-            // Esconde quiz e mostra resultado
-            this.quizEl.classList.add('hidden');
-            this.resultEl.classList.remove('hidden');
-
-            const total = this.total;
-            const acertos = this.score;
-            this.resultScoreEl.textContent = `Você acertou ${acertos} de ${total}`;
-
-            let emoji, msg;
-            const pct = acertos / total;
-            if (pct === 1) {
-                emoji = '🌟';
-                msg = 'Perfeito! Você dominou todos os produtos notáveis!';
-            } else if (pct >= 0.75) {
-                emoji = '👏';
-                msg = 'Muito bem! Continue praticando para gabaritar.';
-            } else if (pct >= 0.5) {
-                emoji = '📚';
-                msg = 'Bom! Reveja os casos em que errou e tente novamente.';
-            } else {
-                emoji = '💪';
-                msg = 'Não desanime! Releia a teoria e pratique mais um pouco.';
-            }
-            this.resultEmojiEl.textContent = emoji;
-            this.resultMessageEl.textContent = msg;
-
-            // Barra de progresso cheia
-            this.barEl.style.width = '100%';
-        }
-
-        restart() {
-            this.currentIndex = 0;
-            this.score = 0;
-            this.answered = false;
-            this.quizEl.classList.remove('hidden');
-            this.resultEl.classList.add('hidden');
-            this.renderQuestion();
-        }
-    }
-
-    // ============================================================
-    //  INSTANCIA O APP
-    // ============================================================
-    const app = new QuizApp(QUESTIONS);
-</script>
-
+        });
+    </script>
 </body>
 </html>
